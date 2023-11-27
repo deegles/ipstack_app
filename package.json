@@ -4,8 +4,9 @@
   "description": "CLI tool to geocode ip addresses",
   "main": "src/geo.ts",
   "scripts": {
-    "preinstall": "npm run build",
+    "postinstall": "npm run build",
     "build": "npx tsc",
+    "build:docker": "",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Diego Benitez <diegobenitezc@gmail.com>",

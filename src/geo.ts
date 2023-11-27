@@ -38,15 +38,15 @@ interface IPStackGeoData {
 
 geoCoder
   .version("1.0.0")
-  .description("CLI tool for Geocoding IP addresses")
+  .description("CLI tool for Geocoding IP addresses.\nUsage: geo -i 192.168.1.1")
   .option("-i, --ip <value>", "IP address")
   .option("-f, --format <value>", "output format", "LATLONG")
-  .action(async ({ ip, format }) => {
+  .action(async ({ ip }) => {
     let stdin = "";
 
     if (process.stdin.isTTY) {
       await geocode(ip);
-    } else {
+    } else if(!ip) {
       // support for piping in the value
       process.stdin.on("readable", () => {
         let chunk = process.stdin.read();
@@ -55,9 +55,9 @@ geoCoder
         }
       });
       process.stdin.on("end", async function () {
-        await geocode(stdin);
+        await geocode(stdin || ip);
       });
-    }
+    } 
   })
   .parse(process.argv);
 
@@ -68,7 +68,7 @@ async function geocode(ipLike: string): Promise<void> {
     }
 
     if (!isValidIpAddress(ipLike)) {
-      throw new Error("Invalid IP address: " + ipLike);
+      geoCoder.help();
     }
 
     const { data, status, statusText } = await axios({
