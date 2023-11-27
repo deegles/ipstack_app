@@ -2,8 +2,9 @@
   "name": "brightsign_app",
   "version": "1.0.0",
   "description": "CLI tool to geocode ip addresses",
-  "main": "src/index.ts",
+  "main": "src/geo.ts",
   "scripts": {
+    "preinstall": "npm run build",
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,5 +18,8 @@
   "devDependencies": {
     "@types/node": "^20.10.0",
     "typescript": "^5.3.2"
+  },
+  "bin": {
+    "geo": "./dist/geo.js"
   }
 }
